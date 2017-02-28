@@ -34,5 +34,5 @@ describe('Base http tests', () => {
             expect(data.action).to.be.equal('get');
             done();
         })
-    })
+    });
 });

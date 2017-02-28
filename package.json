@@ -4,7 +4,7 @@
   "description": "A new etcd client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha"
   },
   "repository": {
     "type": "git",

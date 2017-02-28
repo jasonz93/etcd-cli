@@ -15,7 +15,7 @@ describe('Etcd API v2 HttpClient', () => {
         });
     });
 
-    it('Try to set a key', (done) => {
+    it('Try to set a key with string value', (done) => {
         etcd.set('/unittest/akey', 'hello', (err, data) => {
             expect(err).to.be.equal(null);
             expect(data.action).to.be.equal('set');
@@ -24,8 +24,26 @@ describe('Etcd API v2 HttpClient', () => {
         })
     });
 
-    it('Try to delete the key created before.', (done) => {
-        etcd.delete('/unittest/akey', (err, data) => {
+    it('Try to update an unexist key', (done) => {
+        etcd.update('/unittest/notexist', 'foo', (err, data) => {
+            expect(err).not.to.be.equal(null);
+            done();
+        })
+    });
+
+    it('Try to update a key', (done) => {
+        etcd.update('/unittest/akey', 'updated', (err, data) => {
+            expect(err).to.be.equal(null);
+            etcd.get('/unittest/akey', (err, data) => {
+                expect(err).to.be.equal(null);
+                expect(data.node.value).to.be.equal('updated');
+                done();
+            })
+        })
+    });
+
+    it('Try to remove the key created before.', (done) => {
+        etcd.remove('/unittest/akey', (err, data) => {
             expect(err).to.be.equal(null);
             expect(data.action).to.be.equal('delete');
             expect(typeof data.node.value).to.be.equal('undefined');

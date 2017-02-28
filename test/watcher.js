@@ -9,7 +9,7 @@ describe('Test watcher', () => {
     let etcd = new Etcd.V2HTTPClient('127.0.0.1:2379');
 
     it('Initialize data', (done) => {
-        etcd.set('/unittest/watcher', 'initdata', (err) => {
+        etcd.set('/unittest/watcher', 'initdata', (err, data) => {
             expect(err).to.be.equal(null);
             done();
         });
