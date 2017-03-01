@@ -16,15 +16,16 @@ describe('Test watcher', () => {
     })
 
     it('Watch data', (done) => {
-        let watcher = new Watcher(etcd, '/unittest/watcher');
-        watcher.on('change', (data) => {
-            expect(data).not.to.be.equal(null);
-            expect(data.node.value).to.be.equal('testdata');
-            done();
-        });
-        watcher.start(() => {
-            etcd.set('/unittest/watcher', 'testdata', (err, data) => {
-                expect(err).to.be.equal(null);
+        let watcher = etcd.watcher('/unittest/watcher', (err, watcher) => {
+            watcher.on('change', (data) => {
+                expect(data).not.to.be.equal(null);
+                expect(data.node.value).to.be.equal('testdata');
+                done();
+            });
+            watcher.start(() => {
+                etcd.set('/unittest/watcher', 'testdata', (err, data) => {
+                    expect(err).to.be.equal(null);
+                });
             });
         });
     });

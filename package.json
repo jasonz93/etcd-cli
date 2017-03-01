@@ -1,6 +1,6 @@
 {
   "name": "etcd-cli",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "description": "A new etcd client",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
+    "deasync": "^0.1.9",
     "lodash": "^4.17.4",
     "request": "^2.79.0"
   }
