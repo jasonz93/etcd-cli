@@ -9,41 +9,34 @@ describe('Test watcher', () => {
     let etcd = new Etcd.V2HTTPClient('127.0.0.1:2379');
 
     it('Initialize data', (done) => {
-        etcd.set('/unittest/watcher', 'initdata', (err, data) => {
-            expect(err).to.be.equal(null);
+        etcd.set('/unittest/watcher', 'initdata').then(() => {
             done();
-        });
-    })
+        }).catch(done);
+    });
 
     it('Watch data', (done) => {
-        let watcher = etcd.watcher('/unittest/watcher', (err, watcher) => {
+        let watcher = etcd.watcher('/unittest/watcher').then((watcher) => {
             watcher.on('change', (data) => {
                 expect(data).not.to.be.equal(null);
                 expect(data.node.value).to.be.equal('testdata');
                 done();
             });
-            watcher.start(() => {
-                etcd.set('/unittest/watcher', 'testdata', (err, data) => {
-                    expect(err).to.be.equal(null);
-                });
+            watcher.start().then(() => {
+                etcd.set('/unittest/watcher', 'testdata').catch(done);
             });
         });
     });
 
     it('Watch childs', (done) => {
-        let watcher = new Watcher(etcd, '/unittest', null, {
+        let watcher = new Watcher(etcd, '/unittest', {
             recursive: true
         });
         watcher.on('change', (childs) => {
             done();
         });
         watcher.start();
-        etcd.set('/unittest/child/1', 'child1data', (err, data) => {
-            expect(err).to.be.equal(null);
-        });
-        // etcd.set('/unittest/wchild', null, {dir: true}, (err) => {
-        //     expect(err).to.be.equal(null);
-        //
-        // });
+        etcd.set('/unittest/child/1', 'child1data').then(() => {
+            done();
+        }).catch(done);
     })
 });

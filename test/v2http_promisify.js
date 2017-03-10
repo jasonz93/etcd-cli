@@ -4,7 +4,7 @@
 const Etcd = require('../');
 const {expect} = require('chai');
 
-let etcd = new Etcd.V2HTTPClient('127.0.0.1:2379').promisify();
+let etcd = new Etcd.V2HTTPClient('127.0.0.1:2379');
 
 describe('Etcd API v2 HttpClient', () => {
     it('Try to get a key which is not exists.', (done) => {
