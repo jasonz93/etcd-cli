@@ -24,7 +24,7 @@ describe('Base http tests', () => {
         etcd.raw('GET', '/123').then(() => {
             return Promise.reject(new Error('This should not run.'));
         }).catch((err) => {
-            expect(err.message).to.be.equal('API Not Found.');
+            expect(err.message).to.have.string('API Not Found.');
             done();
         }).catch(done);
     });
