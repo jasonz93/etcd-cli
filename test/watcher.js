@@ -35,8 +35,6 @@ describe('Test watcher', () => {
             done();
         });
         watcher.start();
-        etcd.set('/unittest/child/1', 'child1data').then(() => {
-            done();
-        }).catch(done);
+        etcd.set('/unittest/child/1', 'child1data').catch(done);
     })
 });
